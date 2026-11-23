@@ -10,11 +10,14 @@ export default function App() {
   const [ragAns, setRagAns] = useState("");
 
   const load = () => {
-    fetch("http://localhost:8000/incidents")
-      .then((r) => r.json())
-      .then(setIncidents)
-      .catch((e) => console.log("Backend not running", e));
-  };
+  fetch("http://127.0.0.1:8000/incidents")
+    .then((r) => r.json())
+    .then((data) => {
+      console.log("DATA FROM API:", data);
+      setIncidents(data);
+    })
+    .catch((e) => console.log("Backend not running", e));
+};
 
   useEffect(() => {
     load();
