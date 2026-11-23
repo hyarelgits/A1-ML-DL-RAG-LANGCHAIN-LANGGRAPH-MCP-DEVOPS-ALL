@@ -1,0 +1,36 @@
+The screenshot shows:
+
+Plain Text
+Unable to listen on port 3000
+bind: address already in use
+
+This means something is already using port 3000 (likely your React app).
+
+Find what's using port 3000
+
+Run:
+
+Shell
+sudo lsof -i :3000
+
+or
+
+Shell
+sudo netstat -tulpn | grep 3000
+
+Example output:
+
+Plain Text
+COMMAND PID
+node 12345
+Kill the process
+Shell
+kill -9 12345
+
+Or directly:
+
+Shell
+sudo fuser -k 3000/tcp
+Easier Option: Use another port
+
+Instead of 3000, forward Grafana to 3001:
