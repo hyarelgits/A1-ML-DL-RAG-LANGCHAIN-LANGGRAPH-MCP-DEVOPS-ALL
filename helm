@@ -1,0 +1,76 @@
+To install Helm on Ubuntu:
+
+Method 1 (Recommended)
+
+Run:
+
+Shell
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+Verify:
+
+Shell
+helm version
+
+Expected output:
+
+Plain Text
+version.BuildInfo{Version:"v3.x.x", ...}
+Method 2 (APT Repository)
+Shell
+sudo apt update
+sudo apt install apt-transport-https --yes
+ 
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+ 
+sudo apt-get install gnupg
+ 
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | \
+sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+ 
+sudo apt update
+ 
+sudo apt install helm
+
+Verify:
+
+Shell
+helm version
+Check Helm Installation
+Shell
+which helm
+ 
+
+Example:
+
+Plain Text
+/usr/local/bin/helm
+Add Helm Repository
+Shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+Test Helm on Your Minikube Cluster
+
+Install Nginx:
+
+Shell
+helm install my-nginx bitnami/nginx
+
+Check:
+
+Shell
+helm list
+kubectl get pods
+kubectl get svc
+If You Get "helm: command not found"
+
+Run:
+
+Shell
+echo $PATH
+which helm
+ls -l /usr/local/bin/helm
+
+and share the output.
+
+Install Helm using aptVerify Helm installation
