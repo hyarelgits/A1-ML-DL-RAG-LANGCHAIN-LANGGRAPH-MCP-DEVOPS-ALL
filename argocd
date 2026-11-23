@@ -1,0 +1,84 @@
+To install Argo CD on Ubuntu with Minikube/Kubernetes:
+
+1. Create the Argo CD namespace
+Shell
+kubectl create namespace argocd
+2. Install Argo CD
+Shell
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+3. Verify pods
+Shell
+kubectl get pods -n argocd
+
+Wait until all pods show:
+
+Plain Text
+Running
+
+Example:
+
+Plain Text
+argocd-server
+argocd-repo-server
+argocd-application-controller
+argocd-redis
+4. Check services
+Shell
+kubectl get svc -n argocd
+5. Access Argo CD UI
+
+For your Codespace VM:
+
+Shell
+kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0
+
+Then:
+
+Open PORTS tab in Codespaces.
+Find port 8080.
+Set visibility to Public.
+Open the forwarded URL.
+6. Get admin password
+Shell
+kubectl -n argocd get secret argocd-initial-admin-secret \
+-o jsonpath="{.data.password}" | base64 -d && echo
+7. Login
+Plain Text
+Username: admin
+Password: <password from command above>
+Install Argo CD CLI
+
+Download:
+
+Shell
+curl -sSL -o argocd \
+https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+
+Make executable:
+
+Shell
+chmod +x argocd
+
+Move to PATH:
+
+Shell
+sudo mv argocd /usr/local/bin/
+
+Verify:
+
+Shell
+argocd version
+Login from CLI
+Shell
+argocd login localhost:8080 --username admin --insecure
+ 
+Verify installation
+Shell
+kubectl get all -n argocd
+ 
+Shell
+kubectl get pods -n argocd
+Shell
+kubectl get svc -n argocd
+
+If you're using GitHub Codespaces, access issues are usually related to port forwarding. The Argo CD installation itself is complete once all argocd-* pods are in the Running state.
