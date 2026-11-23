@@ -1,0 +1,138 @@
+Since you already have Minikube + Helm running, use the kube-prometheus-stack Helm chart.
+
+Step 1: Create Namespace
+Shell
+kubectl create namespace monitoring
+
+Verify:
+
+Shell
+kubectl get ns
+Step 2: Add Helm Repository
+Shell
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+Update:
+
+Shell
+helm repo update
+Step 3: Install Prometheus + Grafana
+Shell
+helm install monitoring prometheus-community/kube-prometheus-stack \
+-n monitoring
+
+This installs:
+
+Prometheus
+Grafana
+Alertmanager
+kube-state-metrics
+Node Exporter
+Prometheus Operator
+Step 4: Check Installation
+Shell
+kubectl get pods -n monitoring
+
+Wait until all pods become:
+
+Plain Text
+Running
+
+Example:
+
+Plain Text
+monitoring-grafana
+monitoring-kube-prometheus-prometheus
+monitoring-alertmanager
+monitoring-kube-state-metrics
+Step 5: Check Services
+Shell
+kubectl get svc -n monitoring
+
+Expected:
+
+Plain Text
+monitoring-grafana
+monitoring-kube-prometheus-prometheus
+Step 6: Access Grafana
+
+Port forward:
+
+Shell
+kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80 --address 0.0.0.0
+ 
+
+Because you're using GitHub Codespaces:
+
+Open PORTS tab.
+Find port 3000.
+Set visibility to Public.
+Open Browser.
+Step 7: Get Grafana Password
+Shell
+kubectl get secret -n monitoring monitoring-grafana \
+-o jsonpath="{.data.admin-password}" | base64 -d && echo
+
+Username:
+
+Plain Text
+admin
+
+Password:
+
+Plain Text
+(output from command)
+Step 8: Access Prometheus
+
+Port forward:
+
+Shell
+kubectl port-forward -n monitoring \
+svc/monitoring-kube-prometheus-prometheus 9090:9090 --address 0.0.0.0
+
+Open port 9090 from the Codespaces PORTS tab.
+
+Step 9: Verify Helm Deployment
+Shell
+helm list -n monitoring
+ 
+
+Expected:
+
+Plain Text
+NAME NAMESPACE
+monitoring monitoring
+Useful Verification Commands
+Shell
+kubectl get pods -n monitoring
+Shell
+kubectl get svc -n monitoring
+Shell
+kubectl get all -n monitoring
+Shell
+helm list -n monitoring
+Uninstall Later
+Shell
+helm uninstall monitoring -n monitoring
+
+Delete namespace:
+
+Shell
+kubectl delete namespace monitoring
+
+For your learning path:
+
+Plain Text
+Docker
+→ Kubernetes (Minikube)
+→ Helm
+→ Prometheus
+→ Grafana
+→ Jenkins
+→ Argo CD
+→ Terraform
+
+Prometheus + Grafana is the next logical step after Helm.
+
+Troubleshoot monitoring podsConfigure Grafana dashboardsMonitor Argo CD with Prometheus
+FilesFiles
