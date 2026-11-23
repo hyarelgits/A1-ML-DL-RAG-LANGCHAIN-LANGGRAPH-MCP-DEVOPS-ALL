@@ -1,0 +1,87 @@
+The error in your screenshot is:
+
+Plain Text
+Cannot find module 'node:path'
+
+This usually means your Node.js version is too old for the version of React packages you installed.
+
+Check Node version
+
+Run:
+
+Shell
+node -v
+
+and
+
+Shell
+npm -v
+If Node is old (for example v12 or v14)
+
+React packages may require a newer version.
+
+Install a newer Node.js:
+
+Shell
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+apt-get install -y nodejs
+
+Then verify:
+
+Shell
+node -v
+npm -v
+
+Expected:
+
+Plain Text
+v20.x.x
+Clean and reinstall packages
+
+From your frontend folder:
+
+Shell
+rm -rf node_modules
+rm -f package-lock.json
+
+Install again:
+
+Shell
+npm install
+
+Then:
+
+Shell
+npm start
+Why this error happens
+
+When React starts:
+
+Plain Text
+npm start
+↓
+react-scripts
+↓
+eslint
+↓
+eslint-config-react-app
+↓
+node:path
+
+node:path is a built-in module available in newer Node.js versions.
+
+If Node.js is old:
+
+Plain Text
+Cannot find module 'node:path'
+
+appears and compilation fails.
+
+Please run
+Shell
+node -v
+npm -v
+
+and paste the output. That will confirm whether the issue is an outdated Node.js version.
+
+FilesFiles
