@@ -1,0 +1,142 @@
+Your Prometheus stack is running successfully ✅
+
+From your screenshot:
+
+Plain Text
+monitoring-grafana 3/3 Running
+prometheus-monitoring-kube-prometheus-prometheus-0 2/2 Running
+alertmanager-monitoring-kube-prometheus-alertmanager-0 2/2 Running
+ 
+Open Prometheus Dashboard
+
+First check the service name:
+
+Shell
+kubectl get svc -n monitoring
+
+Look for something similar to:
+
+Plain Text
+monitoring-kube-prometheus-prometheus
+
+Then run:
+
+Shell
+kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus 9090:9090 --address 0.0.0.0
+ 
+
+Keep that terminal open.
+
+If using GitHub Codespaces
+Open **
+give me link for promethous to open
+
+Based on your installation, the Prometheus pod is:
+
+Plain Text
+prometheus-monitoring-kube-prometheus-prometheus-0
+
+First run:
+
+Shell
+kubectl get svc -n monitoring
+
+Look for a service similar to:
+
+Plain Text
+monitoring-kube-prometheus-prometheus
+
+Then start port forwarding:
+
+Shell
+kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus 9090:9090 --address 0.0.0.0
+
+Since you're using GitHub Codespaces, do not use localhost:9090 directly on your laptop.
+
+Get the Codespaces URL
+Open PORTS tab.
+Find port 9090.
+Click Open in Browser.
+
+The URL will look similar to:
+
+Plain Text
+https://<your-codespace-name>-9090.app.github.dev
+If you want me to give the exact URL
+
+Run:
+
+Shell
+kubectl get svc -n monitoring
+
+and send the output. I can then confirm the exact service name to use for Prometheus.
+
+i am not using code space / iam using ubutu vm
+
+If you're using a Ubuntu VM (not Codespaces), and Prometheus is installed in Kubernetes, first find the service name:
+
+Shell
+kubectl get svc -n monitoring
+
+Then port-forward Prometheus:
+
+Shell
+kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus 9090:9090
+
+Keep that terminal running.
+
+Open Prometheus
+
+If you're working directly on the Ubuntu VM desktop:
+
+Plain Text
+http://localhost:9090
+ 
+If you're connecting to the VM from your laptop
+
+Find the VM IP:
+
+Shell
+hostname -I
+
+Example:
+
+Plain Text
+192.168.11.152
+
+Then expose Prometheus:
+
+Shell
+kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus 9090:9090 --address 0.0.0.0
+
+Open in your laptop browser:
+
+Plain Text
+http://192.168.11.152:9090
+ 
+Verify Prometheus is listening
+
+Run:
+
+Shell
+curl http://localhost:9090
+
+You should get HTML containing:
+
+HTML
+<title>Prometheus Time Series Collection and Processing Server</title>
+If the page doesn't open
+
+Show:
+
+Shell
+kubectl get svc -n monitoring
+
+and
+
+Shell
+ss -tulpn | grep 9090
+
+and I'll give you the exact URL for your setup.
+
+Open Grafana on the VMCheck your VM IP addressFix Prometheus connection
