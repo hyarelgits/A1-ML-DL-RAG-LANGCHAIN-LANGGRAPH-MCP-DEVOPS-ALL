@@ -1,0 +1,72 @@
+Since you're on an Ubuntu VM, the easiest way to open Grafana is with kubectl port-forward.
+
+1. Check Grafana Service
+Shell
+kubectl get svc -n monitoring
+
+You should see something like:
+
+Plain Text
+monitoring-grafana
+2. Start Port Forward
+Shell
+kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80 --address 0.0.0.0
+
+Keep this terminal open.
+
+3. Find Your VM IP
+Shell
+hostname -I
+
+Example:
+
+Plain Text
+192.168.11.152
+4. Open Grafana
+
+From your laptop browser:
+
+Plain Text
+http://192.168.11.152:3000
+
+or if you're on the VM desktop itself:
+
+Plain Text
+http://localhost:3000
+5. Get Grafana Password
+Shell
+kubectl get secret -n monitoring monitoring-grafana \
+-o jsonpath="{.data.admin-password}" | base64 -d && echo
+6. Login
+Plain Text
+Username: admin
+Password: <output from above command>
+7. Verify Port 3000 is Listening
+
+If the page doesn't open:
+
+Shell
+ss -tulpn | grep 3000
+
+You should see:
+
+Plain Text
+LISTEN 0.0.0.0:3000
+Useful Grafana Dashboards
+
+After login:
+
+Kubernetes / Compute Resources / Cluster
+Kubernetes / Compute Resources / Node
+Kubernetes / Compute Resources / Pod
+Node Exporter Full
+
+If http://<VM-IP>:3000 doesn't open, send the output of:
+
+Shell
+kubectl get svc -n monitoring
+hostname -I
+
+and I'll give you the exact URL.
+
+Fix Grafana port access
