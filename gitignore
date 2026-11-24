@@ -1,0 +1,108 @@
+Yes. Before git add ., create a .gitignore file so Git does not upload unwanted files such as virtual environments, databases, cache files, models, and node modules.
+
+Run:
+
+Shell
+cat > .gitignore << 'EOF'
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+ 
+# Database
+*.db
+security.db
+ 
+# ML Models
+*.pkl
+*.joblib
+ 
+# Logs
+*.log
+ 
+# Environment variables
+.env
+ 
+# Node / React
+node_modules/
+build/
+ 
+# VS Code
+.vscode/
+ 
+# IntelliJ
+.idea/
+ 
+# OS Files
+.DS_Store
+Thumbs.db
+ 
+# Kubernetes temp files
+*.swp
+ 
+# Coverage
+.coverage
+htmlcov/
+ 
+# pytest
+.pytest_cache/
+ 
+# Jupyter
+.ipynb_checkpoints/
+ 
+# Docker
+docker-compose.override.yml
+EOF
+
+Verify:
+
+Shell
+cat .gitignore
+
+Then:
+
+Shell
+git status
+
+If you already added files before creating .gitignore, refresh Git:
+
+Shell
+git rm -r --cached .
+git add .
+
+Now commit and push:
+
+Shell
+git add .
+git commit -m "Initial commit - Security Incident AI Platform"
+git branch -M main
+git push -u origin main
+
+For your project specifically, the most important files to ignore are:
+
+Plain Text
+venv/
+node_modules/
+security.db
+model.pkl
+__pycache__/
+.env
+
+Otherwise your repository can become hundreds of MB in size and may accidentally upload local databases, trained models, or secrets.
+
+FilesFiles
+
+
+
+
+Message Copilot
+Add content
+Upload images and files
+Attach cloud files
+Generate an image
+Draft page or code
+More
+Chat with agents and skills
+AI-generated content may be inc
