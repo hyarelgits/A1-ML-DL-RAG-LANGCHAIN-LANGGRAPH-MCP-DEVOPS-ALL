@@ -1,0 +1,117 @@
+The screenshot shows:
+
+Shell
+curl -X POST http://localhost:8000/login \
+-H "Content-Type: application/json" \
+-d '{"username":"admin","password":"admin123"}'
+
+Response:
+
+JSON
+{"detail":"Not Found"}
+
+and
+
+Plain Text
+POST /login HTTP/1.1" 404 Not Found
+What does 404 mean?
+
+404 Not Found means:
+
+✅ FastAPI server is running
+ ❌ Route /login does not exist
+
+Check available routes
+
+Open:
+
+Shell
+http://localhost:8000/docs
+
+or run:
+
+Shell
+curl http://localhost:8000/openapi.json
+
+You will see all API endpoints.
+
+Check if /login exists
+
+Search in your code:
+
+Shell
+grep -rn "@app.post" backend/
+
+or
+
+Shell
+grep -rn "login" backend/main.py
+ 
+
+You should find something like:
+
+Python
+@app.post("/login")
+
+If you do not see this line, then the /login API has not been created.
+
+Example Login API
+Python
+from fastapi import FastAPI
+ 
+app = FastAPI()
+ 
+@app.post("/login")
+def login(data: dict):
+return {
+"message": "login success",
+"username": data["username"]
+}
+
+Then:
+
+Shell
+curl -X POST http://localhost:8000/login \
+-H "Content-Type: application/json" \
+-d '{"username":"admin","password":"admin123"}'
+
+returns:
+
+JSON
+{
+"message":"login success",
+"username":"admin"
+}
+Most likely in your project
+
+Currently you already tested:
+
+Shell
+curl http://localhost:8000/predict/hi
+
+and
+
+Shell
+curl http://localhost:8000/predict/fakeloginpage
+
+Those worked, which means your app probably only has:
+
+Python
+@app.get("/predict/{text}")
+
+and does not have:
+
+Python
+@app.post("/login")
+
+That's why FastAPI returns:
+
+JSON
+{"detail":"Not Found"}
+
+Run this and show the output:
+
+Shell
+grep -n "@app" backend/main.py
+
+It will list all available endpoints in your FastAPI application.
