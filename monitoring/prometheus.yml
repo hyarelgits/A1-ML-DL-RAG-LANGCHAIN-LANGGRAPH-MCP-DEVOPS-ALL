@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+  # # scrape_interval 15s = Check app every 15 seconds
+scrape_configs:
+- job_name: 'security-app'
+  # # job_name = Job name
+  static_configs:
+  - targets: ['localhost:8000']
+    # # targets = Where to scrape - Backend on 8000

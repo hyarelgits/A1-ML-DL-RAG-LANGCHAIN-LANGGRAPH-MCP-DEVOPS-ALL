@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+# # apiVersion argoproj.io = Argo CD API
+kind: Application
+# # kind Application = Argo CD Application
+metadata:
+  name: security-app
+  # # name = App name
+  namespace: argocd
+  # # namespace = Argo CD namespace
+spec:
+  project: default
+  # # project = Default project
+  source:
+    repoURL: https://github.com/your-username/security_incident_project
+    # # repoURL = GitHub repo where Helm files are - Change to your repo
+    targetRevision: HEAD
+    # # targetRevision HEAD = Latest code
+    path: k8s/helm/security-app
+    # # path = Helm chart path in repo
+  destination:
+    server: https://kubernetes.default.svc
+    # # server = K8s cluster
+    namespace: default
+    # # namespace = Deploy to default namespace
+  syncPolicy:
+    automated:
+      prune: true
+      # # prune true = Delete old resources if removed from Git
+      selfHeal: true
+      # # selfHeal true = If someone changes K8s manually, Argo CD fixes back to Git version
+    syncOptions:
+    - CreateNamespace=true
+    # # CreateNamespace = Create namespace if not exists

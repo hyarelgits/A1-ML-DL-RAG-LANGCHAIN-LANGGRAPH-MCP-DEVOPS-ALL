@@ -1,0 +1,23 @@
+pipeline {
+  // # pipeline = Jenkins pipeline
+  agent any
+  // # agent any = Run on any Jenkins agent
+  stages {
+    // # stages = Steps
+    stage('Build') {
+      // # stage Build = Build Docker
+      steps { sh 'docker build -t security-app:1.0 backend/' }
+      // # sh = Shell command - Build Docker image
+    }
+    stage('Test') {
+      // # stage Test = Test AI
+      steps { sh 'python3 backend/train_ai.py' }
+      // # sh = Run AI training test - If fails, Jenkins stops, does NOT deploy
+    }
+    stage('Deploy') {
+      // # stage Deploy = Deploy via Helm
+      steps { sh 'helm upgrade --install security-app k8s/helm/security-app' }
+      // # sh = Helm deploy
+    }
+  }
+}

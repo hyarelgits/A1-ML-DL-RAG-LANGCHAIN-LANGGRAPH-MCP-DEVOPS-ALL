@@ -1,0 +1,12 @@
+replicaCount: 2
+# # replicaCount 2 = Run 2 copies - If one dies, other works
+image:
+  repository: security-app
+  # # repository = Image name
+  tag: "1.0"
+  # # tag = Image version
+service:
+  port: 8000
+  # # port = Service port
+  type: NodePort
+  # # type NodePort = Expose via NodePort, outside can reach

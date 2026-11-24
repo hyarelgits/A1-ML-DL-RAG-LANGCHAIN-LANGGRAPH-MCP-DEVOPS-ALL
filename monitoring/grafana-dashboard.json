@@ -1,0 +1,12 @@
+{
+  "title": "Security Incident Dashboard",
+  # # title = Dashboard title
+  "panels": [
+    {"title": "Incidents by Severity"},
+    # # Panel 1 - Incidents by Severity
+    {"title": "Prediction Accuracy"},
+    # # Panel 2 - Accuracy
+    {"title": "K-Means Clusters"}
+    # # Panel 3 - Clusters
+  ]
+}

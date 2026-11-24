@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+# # apiVersion apps/v1 = Deployment API
+kind: Deployment
+# # kind Deployment = This file is Deployment
+metadata:
+  name: security-app
+  # # name = Deployment name
+spec:
+  replicas: 2
+  # # replicas 2 = Run 2 pods
+  selector:
+    matchLabels:
+      app: security-app
+      # # matchLabels = Select pods with label app=security-app
+  template:
+    metadata:
+      labels:
+        app: security-app
+        # # labels = Give pods label app=security-app
+    spec:
+      containers:
+      - name: backend
+        # # name backend = Container name
+        image: hyareldocker1/security-app:1.0
+        # # image = Docker image to use
+        ports:
+        - containerPort: 8000
+        # # containerPort = Container listens on 8000

@@ -1,0 +1,10 @@
+apiVersion: v2
+# # apiVersion v2 = Helm chart version 2
+name: security-app
+# # name = Chart name
+description: Security Incident AI App
+# # description = What is this chart
+version: 1.0.0
+# # version = Chart version
+appVersion: "1.0"
+# # appVersion = App version

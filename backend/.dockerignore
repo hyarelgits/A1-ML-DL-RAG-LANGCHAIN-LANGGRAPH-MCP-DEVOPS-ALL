@@ -1,0 +1,10 @@
+venv
+# # venv = Don't copy venv to Docker - Else Docker becomes very big
+__pycache__
+# # __pycache__ = Don't copy Python cache
+*.pyc
+# # *.pyc = Don't copy compiled Python
+security.db
+# # security.db = Don't copy DB - Fresh DB in container
+model.pkl
+# # model.pkl = Don't copy model - Optional, can copy if you want

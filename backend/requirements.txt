@@ -1,0 +1,6 @@
+fastapi
+# # fastapi = Backend framework - To make API
+uvicorn
+# # uvicorn = Server to run FastAPI - Like switch ON
+pydantic
+# # pydantic = Data validation - To check input data
