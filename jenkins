@@ -1,0 +1,217 @@
+Install Jenkins on Ubuntu VM
+Step 1: Update Ubuntu
+Shell
+sudo apt update
+sudo apt upgrade -y
+Step 2: Install Java (Jenkins Requirement)
+
+Jenkins requires Java.
+
+Shell
+sudo apt install openjdk-17-jdk -y
+
+Verify:
+
+Shell
+java -version
+
+Expected output:
+
+Shell
+openjdk version "17"
+Step 3: Add Jenkins Repository Key
+Shell
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+/usr/share/keyrings/jenkins-keyring.asc > /dev/null
+Step 4: Add Jenkins Repository
+Shell
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+/etc/apt/sources.list.d/jenkins.list > /dev/null
+Step 5: Install Jenkins
+Shell
+sudo apt update
+sudo apt install jenkins -y
+Step 6: Start Jenkins
+Shell
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+
+Check status:
+
+Shell
+sudo systemctl status jenkins
+
+You should see:
+
+Shell
+active (running)
+Step 7: Allow Port 8080
+
+If UFW firewall is enabled:
+
+Shell
+sudo ufw allow 8080
+sudo ufw reload
+Step 8: Open Jenkins
+
+Check VM IP:
+
+Shell
+ip addr
+
+or
+
+Shell
+hostname -I
+
+Open in browser:
+
+Plain Text
+http://<VM-IP>:8080
+
+Example:
+
+Plain Text
+http://192.168.1.100:8080
+Step 9: Get Initial Admin Password
+Shell
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Copy the password and paste it into the Jenkins web page.
+
+Useful Jenkins Commands
+
+Start:
+
+Shell
+sudo systemctl start jenkins
+
+Stop:
+
+Shell
+sudo systemctl stop jenkins
+
+Restart:
+
+Shell
+sudo systemctl restart jenkins
+
+Status:
+
+Shell
+sudo systemctl status jenkins
+ 
+
+Check port:
+
+Shell
+sudo netstat -tulpn | grep 8080
+
+or
+
+Shell
+sudo ss -tulpn | grep 8080
+
+Since you've already installed Docker, Helm, Prometheus, and Grafana on your Ubuntu VM, the next common step is to install Jenkins plugins:
+
+Docker
+Kubernetes
+Pipeline
+Git
+Blue Ocean
+Docker Pipeline
+
+These will help build a complete DevOps CI/CD pipeline.
+
+8080 another app running
+
+If another application is already using port 8080, you have 2 options:
+
+Option 1: Find and stop the process on 8080
+
+Check what's using 8080:
+
+Shell
+sudo ss -tulpn | grep 8080
+
+or
+
+Shell
+sudo lsof -i :8080
+
+Example output:
+
+Shell
+tcp LISTEN 0 4096 *:8080 *:* users:(("java",pid=1234))
+
+Kill the process:
+
+Shell
+sudo kill -9 1234
+
+Then restart Jenkins:
+
+Shell
+sudo systemctl restart jenkins
+Option 2: Change Jenkins Port
+
+Edit Jenkins configuration:
+
+Shell
+sudo nano /etc/default/jenkins
+
+Find:
+
+Shell
+HTTP_PORT=8080
+
+Change to:
+
+Shell
+HTTP_PORT=8081
+
+Save:
+
+Ctrl + X
+Y
+Enter
+
+Restart Jenkins:
+
+Shell
+sudo systemctl restart jenkins
+
+Check:
+
+Shell
+sudo systemctl status jenkins
+
+Open:
+
+Plain Text
+http://<VM-IP>:8081
+Quick Command to See All Used Ports
+Shell
+sudo ss -tulpn
+
+or only common DevOps ports:
+
+Shell
+sudo ss -tulpn | grep -E '8080|8081|3000|9090|9000'
+
+Since you've installed Prometheus and Grafana, it's common that:
+
+Grafana → 3000
+Prometheus → 9090
+Jenkins → 8080 (or change to 8081)
+ArgoCD → 8080/443 (sometimes)
+
+Run:
+
+Shell
+sudo lsof -i :8080
+
+and paste the output here. I can tell you exactly which application is occupying port 8080.
+
+Change Jenkins to port 8081Check which app uses 8080Configure the VM firewall port
